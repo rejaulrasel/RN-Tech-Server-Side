@@ -38,6 +38,51 @@ async function run(){
     })
 
 
+    // add events
+    app.post("/addEvent", async (req, res) => {
+      console.log(req.body);
+      const result = await eventsCollection.insertOne(req.body);
+      console.log(result);
+      // res.json(result);
+    });
+
+        //getevents
+        app.get('/events', async (req, res) => {
+          const cursor = eventsCollection.find({});
+          const events = await cursor.toArray();
+          // console.log(services);
+          res.send(events);
+        })
+
+
+    //Find single Service
+    app.get('/services/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const service = await servicesCollection.findOne(query);
+      res.send(service);
+    })
+
+
+    //My events
+    app.get("/myEvents/:email", async (req, res) => {
+      const result = await eventsCollection.find({
+        email: req.params.email,
+      }).toArray();
+      res.send(result);
+    });
+
+    //Delete Event
+    app.delete('/deleteEvents/:id', async (req, res) => {
+      const id = req.params.id;
+      //   console.log(id);
+      const query = { _id: ObjectId(id) };
+      const result = await eventsCollection.deleteOne(query);
+      //   console.log(result);
+      res.json(result);
+    })
+
+
     }
     finally{
         // await client.close();
