@@ -38,6 +38,34 @@ async function run(){
     })
 
 
+    //Save user
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const result = await usersCollection.insertOne(user);
+      console.log(result);
+      res.json(result);
+
+    })
+
+    //Google Sign In update
+    app.put('/users', async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const option = { upsert: true };
+      const updateDoc = { $set: user };
+      const result = await usersCollection.updateOne(filter, updateDoc, option);
+      res.json(result);
+    })
+
+    // app.put('/users/admin', async (req, res) => {
+    //   const user = req.body;
+    //   const filter = { email: user.email };
+    //   const updateDoc = { $set: { role: 'admin' } };
+    //   const result = await usersCollection.updateOne(filter, updateDoc);
+    //   res.json(result);
+    // })
+
+
     // add events
     app.post("/addEvent", async (req, res) => {
       console.log(req.body);
