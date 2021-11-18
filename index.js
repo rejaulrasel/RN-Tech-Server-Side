@@ -122,6 +122,7 @@ async function run(){
     })
 
 
+
     //AddServices
     app.post('/addServices', async (req, res) => {
       const newService = req.body;
@@ -136,6 +137,17 @@ async function run(){
       res.send(result);
     });
 
+
+
+    //delete service
+    app.delete("/deleteService/:id", async (req, res) => {
+      console.log(req.params.id);
+      const _id = req.params.id;
+      const filter = { _id: ObjectId(_id) };
+      const result = await servicesCollection.deleteOne(filter);
+      console.log(result);
+      res.json(result);
+    });
 
     }
     finally{
