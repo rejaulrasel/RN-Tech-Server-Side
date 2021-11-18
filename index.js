@@ -83,6 +83,28 @@ async function run(){
     })
 
 
+    //Update User
+    app.put("/updateState/:id", async (req, res) => {
+      console.log(req.params.id, req.body.state);
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          state: req.body.state,
+        },
+      };
+      const result = await eventsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      console.log(result);
+      res.json(result);
+    });
+
+
+
     //Add Review
     app.post('/user/review', async (req, res) => {
       const review = req.body;
@@ -98,6 +120,21 @@ async function run(){
       // console.log(services);
       res.send(services);
     })
+
+
+    //AddServices
+    app.post('/addServices', async (req, res) => {
+      const newService = req.body;
+      const result = await servicesCollection.insertOne(newService);
+      res.json(result);
+    })
+
+    //All Events
+    app.get("/allEvents", async (req, res) => {
+      const result = await eventsCollection.find({}).toArray();
+      // console.log(result);
+      res.send(result);
+    });
 
 
     }
