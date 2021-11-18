@@ -83,6 +83,23 @@ async function run(){
     })
 
 
+    //Add Review
+    app.post('/user/review', async (req, res) => {
+      const review = req.body;
+      const result = await reviewsCollection.insertOne(review);
+      res.json(result);
+    })
+
+
+    //Get review
+    app.get('/user/review', async (req, res) => {
+      const cursor = reviewsCollection.find({});
+      const services = await cursor.toArray();
+      // console.log(services);
+      res.send(services);
+    })
+
+
     }
     finally{
         // await client.close();
