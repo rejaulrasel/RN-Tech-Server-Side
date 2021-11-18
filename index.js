@@ -17,19 +17,19 @@ console.log(uri);
 
 
 
-async function run(){
-    try{
-        await client.connect();
-        console.log('yes database connected')
+async function run() {
+  try {
+    await client.connect();
+    console.log('yes database connected')
 
-        const database = client.db("Car-Mania");
-        const usersCollection = database.collection("user");
-        const servicesCollection = database.collection("services");
-        const eventsCollection = database.collection("events");
-        const reviewsCollection = database.collection("reviews");
+    const database = client.db("Car-Mania");
+    const usersCollection = database.collection("user");
+    const servicesCollection = database.collection("services");
+    const eventsCollection = database.collection("events");
+    const reviewsCollection = database.collection("reviews");
 
 
-        //getServices
+    //getServices
     app.get('/services', async (req, res) => {
       const cursor = servicesCollection.find({});
       const services = await cursor.toArray();
@@ -57,13 +57,13 @@ async function run(){
       res.json(result);
     })
 
-    // app.put('/users/admin', async (req, res) => {
-    //   const user = req.body;
-    //   const filter = { email: user.email };
-    //   const updateDoc = { $set: { role: 'admin' } };
-    //   const result = await usersCollection.updateOne(filter, updateDoc);
-    //   res.json(result);
-    // })
+    app.put('/users/admin', async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateDoc = { $set: { role: 'admin' } };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    })
 
 
     // add events
@@ -74,13 +74,14 @@ async function run(){
       // res.json(result);
     });
 
-        //getevents
-        app.get('/events', async (req, res) => {
-          const cursor = eventsCollection.find({});
-          const events = await cursor.toArray();
-          // console.log(services);
-          res.send(events);
-        })
+    
+    //getevents
+    app.get('/events', async (req, res) => {
+      const cursor = eventsCollection.find({});
+      const events = await cursor.toArray();
+      // console.log(services);
+      res.send(events);
+    })
 
 
     //Find single Service
@@ -90,6 +91,20 @@ async function run(){
       const service = await servicesCollection.findOne(query);
       res.send(service);
     })
+
+
+    //Admin
+    app.get('/users/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      let isAdmin = false;
+      if (user?.role === 'admin') {
+        isAdmin = true;
+      }
+      res.json({ admin: isAdmin });
+    })
+
 
 
     //My events
@@ -149,6 +164,27 @@ async function run(){
       res.send(services);
     })
 
+    //Add admin
+    app.put("/users/adminAdd", async (req, res) => {
+      const email = req.body.email;
+      const filter = { email: email };
+      console.log(email);
+      const isUser = await usersCollection.findOne({ email: email });
+      console.log(isUser);
+      if (isUser) {
+        const updateDoc = {
+          $set: {
+            role: "admin",
+          },
+        };
+        const result = await usersCollection.updateOne(filter, updateDoc);
+        console.log(result);
+        res.json(result);
+      } else {
+        res.json({ message: "the user does not exist here" });
+      }
+    });
+
 
 
     //AddServices
@@ -177,10 +213,10 @@ async function run(){
       res.json(result);
     });
 
-    }
-    finally{
-        // await client.close();
-    }
+  }
+  finally {
+    // await client.close();
+  }
 }
 run().catch(console.dir);
 
