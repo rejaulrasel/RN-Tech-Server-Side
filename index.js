@@ -29,7 +29,7 @@ async function run() {
     const reviewsCollection = database.collection("reviews");
 
 
-    //getServices
+    //get all Services
     app.get('/services', async (req, res) => {
       const cursor = servicesCollection.find({});
       const services = await cursor.toArray();
@@ -38,7 +38,7 @@ async function run() {
     })
 
 
-    //Save user
+    //Save user to data base
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
@@ -57,6 +57,7 @@ async function run() {
       res.json(result);
     })
 
+
     app.put('/users/admin', async (req, res) => {
       const user = req.body;
       const filter = { email: user.email };
@@ -66,7 +67,7 @@ async function run() {
     })
 
 
-    // add events
+    // add all events
     app.post("/addEvent", async (req, res) => {
       console.log(req.body);
       const result = await eventsCollection.insertOne(req.body);
@@ -75,7 +76,7 @@ async function run() {
     });
 
     
-    //getevents
+    //get all events
     app.get('/events', async (req, res) => {
       const cursor = eventsCollection.find({});
       const events = await cursor.toArray();
@@ -84,7 +85,7 @@ async function run() {
     })
 
 
-    //Find single Service
+    //Find the single Service
     app.get('/services/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -107,7 +108,7 @@ async function run() {
 
 
 
-    //My events
+    //user order
     app.get("/myEvents/:email", async (req, res) => {
       const result = await eventsCollection.find({
         email: req.params.email,
@@ -115,13 +116,21 @@ async function run() {
       res.send(result);
     });
 
-    //Delete Event
+    //Delete the user order
     app.delete('/deleteEvents/:id', async (req, res) => {
       const id = req.params.id;
       //   console.log(id);
       const query = { _id: ObjectId(id) };
       const result = await eventsCollection.deleteOne(query);
       //   console.log(result);
+      res.json(result);
+    })
+
+
+    //Add Services to the shop by admin
+    app.post('/addServices', async (req, res) => {
+      const newService = req.body;
+      const result = await servicesCollection.insertOne(newService);
       res.json(result);
     })
 
@@ -148,7 +157,7 @@ async function run() {
 
 
 
-    //Add Review
+    //Add Review for home page
     app.post('/user/review', async (req, res) => {
       const review = req.body;
       const result = await reviewsCollection.insertOne(review);
@@ -156,7 +165,7 @@ async function run() {
     })
 
 
-    //Get review
+    //Get all reviews
     app.get('/user/review', async (req, res) => {
       const cursor = reviewsCollection.find({});
       const services = await cursor.toArray();
@@ -164,7 +173,7 @@ async function run() {
       res.send(services);
     })
 
-    //Add admin
+    //Make a registered user to admin
     app.put("/users/adminAdd", async (req, res) => {
       const email = req.body.email;
       const filter = { email: email };
@@ -185,16 +194,7 @@ async function run() {
       }
     });
 
-
-
-    //AddServices
-    app.post('/addServices', async (req, res) => {
-      const newService = req.body;
-      const result = await servicesCollection.insertOne(newService);
-      res.json(result);
-    })
-
-    //All Events
+    //All Events for admin
     app.get("/allEvents", async (req, res) => {
       const result = await eventsCollection.find({}).toArray();
       // console.log(result);
@@ -221,7 +221,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello World friends!')
+  res.send('Hello friends!')
 })
 
 app.listen(port, () => {
