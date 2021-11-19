@@ -10,12 +10,3 @@
 ## . Used Heroku as Cloud Application Platform
 ## . Used Node.js as javascript runtime
 ## . Used express.js as Node.js web application framework  
-
-## . You may see the products but if you want to purchase you have to log in
-## . You can log in via GOOGLE or can register with email/password to log in
-## . user can see all his/her order in my order page
-## . user can delete his/her order
-## . user also can give a review here
-## . admin can manage all the services and also can delete or add services
-## . admin can also controll the users order,to give shiphment or cancel an order
-## . an admin can also make a user an admin
