@@ -221,7 +221,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello friends!')
+  res.send('Hello friends! This is Car-Mania server side!!')
 })
 
 app.listen(port, () => {
