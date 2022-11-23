@@ -20,7 +20,8 @@ console.log(uri);
 async function run() {
   try {
     await client.connect();
-    console.log('yes database connected')
+    console.log('yes database Hitted')
+
 
     const database = client.db("Car-Mania");
     const usersCollection = database.collection("user");
@@ -72,7 +73,7 @@ async function run() {
       console.log(req.body);
       const result = await eventsCollection.insertOne(req.body);
       console.log(result);
-      // res.json(result);
+      res.json(result); 
     });
 
     
