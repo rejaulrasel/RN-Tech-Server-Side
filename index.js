@@ -34,7 +34,7 @@ async function run() {
     app.get('/services', async (req, res) => {
       const cursor = servicesCollection.find({});
       const services = await cursor.toArray();
-      // console.log(services);
+      console.log(services);
       res.send(services);
     })
 
@@ -170,7 +170,7 @@ async function run() {
     app.get('/user/review', async (req, res) => {
       const cursor = reviewsCollection.find({});
       const services = await cursor.toArray();
-      // console.log(services);
+      console.log(services);
       res.send(services);
     })
 
