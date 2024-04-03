@@ -1,10 +1,10 @@
 {
-  "name": "server-niche-product-website-assignment-12",
+  "name": "server-niche-product-website",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "engines": {
-    "node" :"18.x"
+    "node" :"20.x"
   },
   "dependencies": {
     "cors": "^2.8.5",

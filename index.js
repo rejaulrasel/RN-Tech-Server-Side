@@ -19,8 +19,8 @@ console.log(uri);
 
 async function run() {
   try {
-    await client.connect();
-    console.log('yes database Hitted')
+    // await client.connect();
+    // console.log('yes database Hitted')
 
 
     const database = client.db("Car-Mania");
@@ -34,7 +34,6 @@ async function run() {
     app.get('/services', async (req, res) => {
       const cursor = servicesCollection.find({});
       const services = await cursor.toArray();
-      console.log(services);
       res.send(services);
     })
 
@@ -43,7 +42,6 @@ async function run() {
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
-      console.log(result);
       res.json(result);
 
     })
@@ -72,7 +70,6 @@ async function run() {
     app.post("/addEvent", async (req, res) => {
       console.log(req.body);
       const result = await eventsCollection.insertOne(req.body);
-      console.log(result);
       res.json(result); 
     });
 
@@ -81,7 +78,6 @@ async function run() {
     app.get('/events', async (req, res) => {
       const cursor = eventsCollection.find({});
       const events = await cursor.toArray();
-      // console.log(services);
       res.send(events);
     })
 
@@ -120,10 +116,8 @@ async function run() {
     //Delete the user order
     app.delete('/deleteEvents/:id', async (req, res) => {
       const id = req.params.id;
-      //   console.log(id);
       const query = { _id: ObjectId(id) };
       const result = await eventsCollection.deleteOne(query);
-      //   console.log(result);
       res.json(result);
     })
 
@@ -198,7 +192,6 @@ async function run() {
     //All Events for admin
     app.get("/allEvents", async (req, res) => {
       const result = await eventsCollection.find({}).toArray();
-      // console.log(result);
       res.send(result);
     });
 
@@ -210,7 +203,6 @@ async function run() {
       const _id = req.params.id;
       const filter = { _id: ObjectId(_id) };
       const result = await servicesCollection.deleteOne(filter);
-      console.log(result);
       res.json(result);
     });
 
