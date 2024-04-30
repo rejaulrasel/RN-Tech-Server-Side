@@ -13,7 +13,7 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.f2uob.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-console.log(uri);
+
 
 
 
@@ -214,7 +214,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello friends! This is server side!!')
+  res.send('Hello friends! This is server side of e commerce!!')
 })
 
 app.listen(port, () => {
